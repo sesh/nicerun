@@ -20,9 +20,22 @@
 </section>
 
 <script>
+  const mapboxStyles = new Map([
+    ['Mapbox Streets', 'mapbox://styles/mapbox/streets-v12'],
+    ['Mapbox Outdoors', 'mapbox://styles/mapbox/outdoors-v12'],
+    ['Mapbox Light', 'mapbox://styles/mapbox/light-v11'],
+    ['Mapbox Dark', 'mapbox://styles/mapbox/dark-v11'],
+    ['Mapbox Satellite' , 'mapbox://styles/mapbox/satellite-v9'],
+    ['Mapbox Satellite Streets', 'mapbox://styles/mapbox/satellite-streets-v12']
+  ]);
+
   /* Nice Run, configuration */
+  let MAP_STYLE_NAME = 'Mapbox Streets';
+  let MAP_STYLE = mapboxStyles.get(MAP_STYLE_NAME);
+
   let MAP_CROP = 200;
   let MAP_LINE_COLOUR = "#fa5252";
+
   let CHART_SPLIT_DURATION = 60; // time in seconds
   let CHART_COLOUR = "#68b2fa";
 
@@ -40,7 +53,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/quicksettings@latest/quicksettings.min.js"></script>
 <script>
-  var settings = QuickSettings.create(
+  let settings = QuickSettings.create(
     getWidth() - 280,
     document.querySelector(".run").offsetTop,
     "Nice Run!"
@@ -64,6 +77,8 @@
       SHOW_ELEVATION = value;
       initStats();
     })
+    .addDropDown("Map Style", new Array(...mapboxStyles.keys()), function(value) { MAP_STYLE_NAME = value.value; MAP_STYLE = mapboxStyles.get(MAP_STYLE_NAME); initMap();})
+
     .addColor("Map Line Colour", MAP_LINE_COLOUR, function (value) {
       MAP_LINE_COLOUR = value;
       initMap();

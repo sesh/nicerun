@@ -58,7 +58,8 @@ let mapCenter = [run.longitude_values[0], run.latitude_values[0]];
 let mapZoom = 13;
 
 function initMap() {
-  console.log(mapCenter, mapZoom);
+  console.log(MAP_STYLE);
+
   /* Map */
   let lon_lat_values = zip([run.longitude_values, run.latitude_values]);
   if (MAP_CROP) {
@@ -85,7 +86,7 @@ function initMap() {
 
   map = new mapboxgl.Map({
     container: "map", // container ID
-    style: "mapbox://styles/mapbox/outdoors-v12", // style URL
+    style: MAP_STYLE, // style URL
     center: mapCenter, // starting position [lng, lat]
     zoom: mapZoom, // starting zoom
   });
