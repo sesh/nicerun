@@ -1,0 +1,36 @@
+from django.http import HttpResponse
+from django.shortcuts import render
+
+from core.activities.activity import Activity
+
+
+def home(request):
+    if request.method == "POST":
+        name = request.POST.get("name") or "Unnamed Run"
+        f = request.FILES["file"]
+
+        if f:
+            if f.name.lower().endswith(".fit"):
+                activity = Activity.load_fit(f)
+            elif f.name.lower().endswith(".gpx"):
+                # TODO: Cannot go live with this using ElementTree
+                # activity = Activity.load_gpx(f.read())
+                return HttpResponse("GPX support coming soon")
+            else:
+                return HttpResponse("Unsupported File")
+
+            activity.name = name
+
+            return render(
+                request,
+                "run.html",
+                {
+                    "activity_json": activity.to_json(),
+                },
+            )
+
+    return render(request, "home.html")
+
+
+def run(request):
+    pass

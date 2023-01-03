@@ -1,0 +1,98 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<section class="run-wrapper">
+  <div class="run">
+    <div class="header">
+      <h3 id="name"></h3>
+      <div class="flex" id="stats"></div>
+    </div>
+    <div id="map" style="width: 100%; height: 550px"></div>
+    <div style="height: 100px">
+      <canvas id="splits"></canvas>
+    </div>
+    <!-- Could be a caption? -->
+    <p id="chart-title"></p>
+    <p id="chart-subtitle"></p>
+  </div>
+</section>
+
+<section>
+  <input id="download" type="button" value="Download" />
+</section>
+
+<script>
+  /* Nice Run, configuration */
+  let MAP_CROP = 200;
+  let MAP_LINE_COLOUR = "#fa5252";
+  let CHART_SPLIT_DURATION = 60; // time in seconds
+  let CHART_COLOUR = "#68b2fa";
+
+  let SHOW_DISTANCE = true;
+  let SHOW_DURATION = true;
+  let SHOW_PACE = true;
+  let SHOW_ELEVATION = false;
+</script>
+
+<script>
+  let run = {{ activity_json|safe }};
+</script>
+
+<script src="{% static 'js/run.js' %}"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/quicksettings@latest/quicksettings.min.js"></script>
+<script>
+  var settings = QuickSettings.create(
+    getWidth() - 280,
+    document.querySelector(".run").offsetTop,
+    "Nice Run!"
+  );
+
+  settings
+    .setWidth(240)
+    .addBoolean("Show Distance", SHOW_DISTANCE, function (value) {
+      SHOW_DISTANCE = value;
+      initStats();
+    })
+    .addBoolean("Show Pace", SHOW_PACE, function (value) {
+      SHOW_PACE = value;
+      initStats();
+    })
+    .addBoolean("Show Duration", SHOW_DURATION, function (value) {
+      SHOW_DURATION = value;
+      initStats();
+    })
+    .addBoolean("Show Elevation", SHOW_ELEVATION, function (value) {
+      SHOW_ELEVATION = value;
+      initStats();
+    })
+    .addColor("Map Line Colour", MAP_LINE_COLOUR, function (value) {
+      MAP_LINE_COLOUR = value;
+      initMap();
+    })
+    .addNumber(
+      "Map Crop (from start and end)",
+      0,
+      1000,
+      MAP_CROP,
+      50,
+      function (value) {
+        MAP_CROP = value;
+        initMap();
+      }
+    )
+    .addColor("Chart Colour", CHART_COLOUR, function (value) {
+      CHART_COLOUR = value;
+      initChart();
+    })
+    .addNumber(
+      "Chart Split Duration",
+      15,
+      300,
+      CHART_SPLIT_DURATION,
+      15,
+      function (value) {
+        CHART_SPLIT_DURATION = value;
+        initChart();
+      }
+    );
+</script>
+{% endblock %}

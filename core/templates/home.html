@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content%}
+<form method="post" enctype="multipart/form-data">
+    <p>
+        <label for="file">Choose an activity file</label>
+        <input type="file" id="file" name="file" />
+    </p>
+    <p>
+        <label for="name">Activity name</label>
+        <input type="text" id="name" name="name" />
+    </p>
+
+    <p>
+        <input type="submit" value="Upload Run" />
+    </p>
+
+    {% csrf_token %}
+</form>
+{% endblock %}

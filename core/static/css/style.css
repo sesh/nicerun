@@ -1,0 +1,74 @@
+body {
+  background-color: #f8f9fa;
+  font-family: "IBM Plex Sans", monospace;
+}
+
+section {
+  border: none !important;
+}
+
+section.run-wrapper {
+  padding: 1em;
+  background-color: #f8f9fa;
+}
+.run {
+  background-color: white;
+  border: 2px solid #adb5bd;
+  border-radius: 10px;
+  box-shadow: 4px 4px 0 #ced4da;
+  padding: 0.6em;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1em;
+}
+
+.flex {
+  display: flex;
+}
+
+.header h3 {
+  font-size: 26px;
+  margin: 0;
+}
+
+.header div.stacked {
+  padding: 0.3em 1em;
+  border-right: 1px solid black;
+}
+
+.header div.stacked:last-child {
+  border: 0;
+}
+
+.header div.stacked h4 {
+  font-size: 14px;
+  margin: 0;
+}
+
+.header div.stacked p {
+  font-size: 22px;
+  margin: 0;
+}
+
+#map {
+  margin-bottom: 1em;
+}
+
+#splits {
+  height: 100px;
+}
+
+#chart-title,
+#chart-subtitle {
+  text-align: right;
+  margin: 0;
+  font-size: 14px;
+}
+
+#chart-title {
+  font-weight: bold;
+}
