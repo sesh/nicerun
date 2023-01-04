@@ -22,6 +22,10 @@
 </section>
 
 <script>
+  let run = {{ activity_json|safe }};
+</script>
+
+<script>
   const mapboxStyles = new Map([
     ["Mapbox Streets", "mapbox://styles/mapbox/streets-v12"],
     ["Mapbox Outdoors", "mapbox://styles/mapbox/outdoors-v12"],
@@ -41,7 +45,7 @@
   let MAP_CROP = 200;
   let MAP_LINE_COLOUR = "#fa5252";
 
-  let CHART_SPLIT_DURATION = 60; // time in seconds
+  let CHART_SPLIT_DURATION = Math.floor(run.clock_values.length / 50 / 10) * 10;  // time in seconds
   let CHART_COLOUR = "#68b2fa";
 
   let SHOW_DISTANCE = true;
@@ -50,10 +54,6 @@
   let SHOW_ELEVATION = false;
 
   let SHOW_PACE_CHART = true;
-</script>
-
-<script>
-  let run = {{ activity_json|safe }};
 </script>
 
 <script src="{% static 'js/run.js' %}"></script>
