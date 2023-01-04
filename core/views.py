@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 
-from core.activities.activity import Activity
+from activity_py import Activity
 
 
 def home(request):
@@ -13,9 +13,7 @@ def home(request):
             if f.name.lower().endswith(".fit"):
                 activity = Activity.load_fit(f)
             elif f.name.lower().endswith(".gpx"):
-                # TODO: Cannot go live with this using ElementTree
-                # activity = Activity.load_gpx(f.read())
-                return HttpResponse("GPX support coming soon")
+                activity = Activity.load_gpx(f)
             else:
                 return HttpResponse("Unsupported File")
 

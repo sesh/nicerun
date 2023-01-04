@@ -10,6 +10,7 @@ dj-database-url = "*"
 fitparse = "*"
 python-dateutil = "*"
 "srtm.py" = "*"
+"activity.py" = "==0.1b2"
 
 [dev-packages]
 black = "*"
