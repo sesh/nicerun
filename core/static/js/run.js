@@ -220,7 +220,7 @@ function initChart() {
 
   let clock_distance = zip([run.clock_values, run.distance_values]);
   let dist_per_duration = [];
-  let next = CHART_SPLIT_DURATION;
+  let next = PACE_CHART_SPLIT_DURATION;
   let prevDistance = 0;
 
   for (let value of clock_distance) {
@@ -229,7 +229,7 @@ function initChart() {
 
     if (clock >= next) {
       dist_per_duration.push(distance - prevDistance);
-      next += CHART_SPLIT_DURATION;
+      next += PACE_CHART_SPLIT_DURATION;
       prevDistance = distance;
     }
   }
@@ -242,13 +242,13 @@ function initChart() {
   chart = new Chart(ctx, {
     type: "bar",
     data: {
-      labels: chartData.map((el, i) => i * CHART_SPLIT_DURATION),
+      labels: chartData.map((el, i) => i * PACE_CHART_SPLIT_DURATION),
       datasets: [
         {
           label: "Distance per 30 Seconds",
           data: chartData,
           borderWidth: 1,
-          backgroundColor: CHART_COLOUR,
+          backgroundColor: PACE_CHART_COLOUR,
         },
       ],
     },
@@ -274,10 +274,10 @@ function initChart() {
   });
 
 
-  title.innerText = `Distance per ${CHART_SPLIT_DURATION} seconds`;
+  title.innerText = `Distance per ${PACE_CHART_SPLIT_DURATION} seconds`;
 
   let best_split = Math.max(...chartData);
-  let best_pace = toHHMMSS(CHART_SPLIT_DURATION * (1000 / best_split));
+  let best_pace = toHHMMSS(PACE_CHART_SPLIT_DURATION * (1000 / best_split));
 
   subTitle.innerText = `Best: ${best_pace} min/km`;
 }

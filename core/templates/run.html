@@ -21,6 +21,78 @@
   <input id="download" type="button" value="Download" />
 </section>
 
+<section>
+  <details>
+    <summary>Customise</summary>
+    <div class="controls">
+      <div>
+          <p class="space-bottom">
+            <label for="enter-map-crop">Map Crop (from start and end)</label>
+            <input type="number" id="enter-map-crop">
+          </p>
+
+        <p>
+          <label>
+            <input type="checkbox" id="toggle-distance" />
+            Show Distance
+          </label>
+        </p>
+        <p>
+          <label>
+            <input type="checkbox" id="toggle-pace" />
+            Show Pace
+          </label>
+        </p>
+        <p>
+          <label>
+            <input type="checkbox" id="toggle-duration" />
+            Show Duration
+          </label>
+        </p>
+        <p>
+          <label>
+            <input type="checkbox" id="toggle-elevation" />
+            Show Elevation
+          </label>
+        </p>
+        <p>
+          <label>
+            <input type="checkbox" id="toggle-pace-chart" />
+            Show Pace Chart
+          </label>
+        </p>
+      </div>
+
+      <div>
+        <p>
+          <label for="select-map-type">Map Style</label>
+          <select id="select-map-type">
+            <option value="Mapbox Streets">Mapbox Streets</option>
+            <option value="Mapbox Outdoors">Mapbox Outdoors</option>
+            <option value="Mapbox Light">Mapbox Light</option>
+            <option value="Mapbox Dark">Mapbox Dark</option>
+            <option value="Mapbox Satellite">Mapbox Satellite</option>
+            <option value="Mapbox Satellite Streets">Mapbox Satellite Streets</option>
+          </select>
+        </p>
+        <p>
+          <label for="choose-line-color">Map Line Colour</label>
+          <input type="color" id="choose-line-color">
+        </p>
+        <p>
+          <label for="choose-pace-chart-color">Pace Chart Colour</label>
+          <input type="color" id="choose-pace-chart-color">
+        </p>
+
+        <p>
+          <label for="enter-pace-chart-split-duration">Pace Chart Split Duration</label>
+          <input type="number" id="enter-pace-chart-split-duration">
+        </p>
+      </div>
+    </div>
+  </details>
+</section>
+
 <script>
   let run = {{ activity_json|safe }};
 </script>
@@ -45,8 +117,8 @@
   let MAP_CROP = 200;
   let MAP_LINE_COLOUR = "#fa5252";
 
-  let CHART_SPLIT_DURATION = Math.floor(run.clock_values.length / 50 / 10) * 10;  // time in seconds
-  let CHART_COLOUR = "#68b2fa";
+  let PACE_CHART_SPLIT_DURATION = Math.floor(run.clock_values.length / 50 / 10) * 10; // time in seconds
+  let PACE_CHART_COLOUR = "#68b2fa";
 
   let SHOW_DISTANCE = true;
   let SHOW_DURATION = true;
@@ -56,75 +128,74 @@
   let SHOW_PACE_CHART = true;
 </script>
 
-<script src="{% static 'js/run.js' %}"></script>
-
 <script>
-  let settings = QuickSettings.create(
-    getWidth() - 280,
-    document.querySelector(".run").offsetTop,
-    "Nice Run!"
-  );
+  function setupControlAndTrackChanges(elementId, initialValue, callback) {
+    let el = document.getElementById(elementId);
+    let inputType = el.type || "unknown";
+    let tagName = el.tagName;
 
-  settings
-    .setWidth(240)
-    .addBoolean("Show Distance", SHOW_DISTANCE, function (value) {
-      SHOW_DISTANCE = value;
-      initStats();
-    })
-    .addBoolean("Show Pace", SHOW_PACE, function (value) {
-      SHOW_PACE = value;
-      initStats();
-    })
-    .addBoolean("Show Duration", SHOW_DURATION, function (value) {
-      SHOW_DURATION = value;
-      initStats();
-    })
-    .addBoolean("Show Elevation", SHOW_ELEVATION, function (value) {
-      SHOW_ELEVATION = value;
-      initStats();
-    })
-    .addBoolean("Show Pace Chart", SHOW_PACE_CHART, function (value) {
-      SHOW_PACE_CHART = value;
-      initChart();
-    })
-    .addDropDown(
-      "Map Style",
-      new Array(...mapboxStyles.keys()),
-      function (value) {
-        MAP_STYLE_NAME = value.value;
-        MAP_STYLE = mapboxStyles.get(MAP_STYLE_NAME);
-        initMap();
-      }
-    )
-    .addColor("Map Line Colour", MAP_LINE_COLOUR, function (value) {
-      MAP_LINE_COLOUR = value;
-      initMap();
-    })
-    .addNumber(
-      "Map Crop (from start and end)",
-      0,
-      1000,
-      MAP_CROP,
-      50,
-      function (value) {
-        MAP_CROP = value;
-        initMap();
-      }
-    )
-    .addColor("Chart Colour", CHART_COLOUR, function (value) {
-      CHART_COLOUR = value;
-      initChart();
-    })
-    .addNumber(
-      "Chart Split Duration",
-      15,
-      300,
-      CHART_SPLIT_DURATION,
-      15,
-      function (value) {
-        CHART_SPLIT_DURATION = value;
-        initChart();
-      }
-    );
+    console.log(elementId, el, inputType);
+
+    if (inputType == "checkbox") {
+      el.checked = initialValue;
+      el.onchange = (e) => callback(e.target.checked);
+    } else if (tagName == "SELECT") {
+      el.value = initialValue;
+      el.onchange = (e) => callback(e.target.value);
+    } else if (inputType == "color" || inputType == "number") {
+      el.value = initialValue;
+      el.onchange = (e) => callback(e.target.value);
+    }
+  }
+
+  setupControlAndTrackChanges("toggle-distance", SHOW_DISTANCE, (value) => {
+    SHOW_DISTANCE = value;
+    initStats();
+  });
+  setupControlAndTrackChanges("toggle-pace", SHOW_PACE, (value) => {
+    SHOW_PACE = value;
+    initStats();
+  });
+  setupControlAndTrackChanges("toggle-duration", SHOW_DURATION, (value) => {
+    SHOW_DURATION = value;
+    initStats();
+  });
+  setupControlAndTrackChanges("toggle-elevation", SHOW_ELEVATION, (value) => {
+    SHOW_ELEVATION = value;
+    initStats();
+  });
+  setupControlAndTrackChanges("toggle-pace-chart", SHOW_PACE_CHART, (value) => {
+    console.log("here!" + value);
+    SHOW_PACE_CHART = value;
+    initChart();
+  });
+
+  setupControlAndTrackChanges("select-map-type", MAP_STYLE_NAME, (value) => {
+    MAP_STYLE_NAME = value;
+    MAP_STYLE = mapboxStyles.get(MAP_STYLE_NAME);
+    initMap();
+  });
+
+  setupControlAndTrackChanges("choose-line-color", MAP_LINE_COLOUR, (value) => {
+    MAP_LINE_COLOUR = value;
+    initMap();
+  });
+
+  setupControlAndTrackChanges("choose-pace-chart-color", PACE_CHART_COLOUR, (value) => {
+    PACE_CHART_COLOUR = value;
+    initChart();
+  });
+
+  setupControlAndTrackChanges("enter-pace-chart-split-duration", PACE_CHART_SPLIT_DURATION, (value) => {
+    PACE_CHART_SPLIT_DURATION = parseInt(value, 10);
+    initChart();
+  });
+
+  setupControlAndTrackChanges("enter-map-crop", MAP_CROP, (value) => {
+    MAP_CROP = parseInt(value, 10);
+    initMap();
+  })
 </script>
+
+<script src="{% static 'js/run.js' %}"></script>
 {% endblock %}

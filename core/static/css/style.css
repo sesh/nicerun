@@ -72,6 +72,18 @@ section.run-wrapper {
   font-weight: bold;
 }
 
+.controls {
+  display: flex;
+  justify-content: space-between;
+}
+
+.controls p {
+  margin: 0;
+}
+
+.controls p.space-bottom {
+  margin-bottom: 1em;
+}
 
 /* Fix issue with Chrome colour picker / quicksettings */
 /* https://github.com/bit101/quicksettings/issues/57#issuecomment-732507267 */
