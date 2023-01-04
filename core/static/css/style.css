@@ -61,14 +61,14 @@ section.run-wrapper {
   height: 100px;
 }
 
-#chart-title,
-#chart-subtitle {
+.chart .title,
+.chart .subtitle {
   text-align: right;
   margin: 0;
   font-size: 14px;
 }
 
-#chart-title {
+.chart .title {
   font-weight: bold;
 }
 
