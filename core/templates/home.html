@@ -13,7 +13,7 @@
     <form method="post" enctype="multipart/form-data">
         <p>
             <label for="file">Choose an activity file</label>
-            <input type="file" id="file" name="file" class="dropzone" />
+            <input type="file" id="file" name="file" />
         </p>
         <p>
             <label for="name">Activity name</label>
@@ -27,4 +27,7 @@
         {% csrf_token %}
     </form>
 </section>
+<script>
+  Dropzone.discover();
+</script>
 {% endblock %}
