@@ -196,6 +196,20 @@ function initChart() {
   if (chart) {
     chart.destroy();
   }
+
+  let paceChartEl = document.getElementById("pace-chart");
+  let title = document.getElementById("chart-title");
+  let subTitle = document.getElementById("chart-subtitle");
+
+  if (!SHOW_PACE_CHART) {
+    paceChartEl.style.display = 'none';
+    title.innerHTML = "";
+    subTitle.innerHTML = "";
+    return;
+  } else {
+    paceChartEl.style.display = 'block';
+  }
+
   let clock_distance = zip([run.clock_values, run.distance_values]);
   let dist_per_duration = [];
   let next = CHART_SPLIT_DURATION;
@@ -213,6 +227,7 @@ function initChart() {
   }
 
   let chartData = dist_per_duration.map((el) => Math.floor(el * 1000));
+  let chartMin = Math.floor(Math.min(...chartData) * 0.8);
 
   const ctx = document.getElementById("splits");
   ctx.style.height = "100px";
@@ -234,8 +249,9 @@ function initChart() {
       maintainAspectRatio: false,
       scales: {
         y: {
-          beginAtZero: true,
+          beginAtZero: false,
           display: false,
+          suggestedMin: chartMin,
         },
         x: {
           display: false,
@@ -249,10 +265,8 @@ function initChart() {
     },
   });
 
-  let title = document.getElementById("chart-title");
-  title.innerText = `Distance per ${CHART_SPLIT_DURATION} seconds`;
 
-  let subTitle = document.getElementById("chart-subtitle");
+  title.innerText = `Distance per ${CHART_SPLIT_DURATION} seconds`;
 
   let best_split = Math.max(...chartData);
   let best_pace = toHHMMSS(CHART_SPLIT_DURATION * (1000 / best_split));

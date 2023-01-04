@@ -6,12 +6,14 @@
       <div class="flex" id="stats"></div>
     </div>
     <div id="map" style="width: 100%; height: 550px"></div>
-    <div style="height: 100px">
-      <canvas id="splits"></canvas>
+    <div id="pace-chart">
+      <div style="height: 100px">
+        <canvas id="splits"></canvas>
+      </div>
+      <!-- Could be a caption? -->
+      <p id="chart-title"></p>
+      <p id="chart-subtitle"></p>
     </div>
-    <!-- Could be a caption? -->
-    <p id="chart-title"></p>
-    <p id="chart-subtitle"></p>
   </div>
 </section>
 
@@ -21,16 +23,19 @@
 
 <script>
   const mapboxStyles = new Map([
-    ['Mapbox Streets', 'mapbox://styles/mapbox/streets-v12'],
-    ['Mapbox Outdoors', 'mapbox://styles/mapbox/outdoors-v12'],
-    ['Mapbox Light', 'mapbox://styles/mapbox/light-v11'],
-    ['Mapbox Dark', 'mapbox://styles/mapbox/dark-v11'],
-    ['Mapbox Satellite' , 'mapbox://styles/mapbox/satellite-v9'],
-    ['Mapbox Satellite Streets', 'mapbox://styles/mapbox/satellite-streets-v12']
+    ["Mapbox Streets", "mapbox://styles/mapbox/streets-v12"],
+    ["Mapbox Outdoors", "mapbox://styles/mapbox/outdoors-v12"],
+    ["Mapbox Light", "mapbox://styles/mapbox/light-v11"],
+    ["Mapbox Dark", "mapbox://styles/mapbox/dark-v11"],
+    ["Mapbox Satellite", "mapbox://styles/mapbox/satellite-v9"],
+    [
+      "Mapbox Satellite Streets",
+      "mapbox://styles/mapbox/satellite-streets-v12",
+    ],
   ]);
 
   /* Nice Run, configuration */
-  let MAP_STYLE_NAME = 'Mapbox Streets';
+  let MAP_STYLE_NAME = "Mapbox Streets";
   let MAP_STYLE = mapboxStyles.get(MAP_STYLE_NAME);
 
   let MAP_CROP = 200;
@@ -43,6 +48,8 @@
   let SHOW_DURATION = true;
   let SHOW_PACE = true;
   let SHOW_ELEVATION = false;
+
+  let SHOW_PACE_CHART = true;
 </script>
 
 <script>
@@ -77,8 +84,19 @@
       SHOW_ELEVATION = value;
       initStats();
     })
-    .addDropDown("Map Style", new Array(...mapboxStyles.keys()), function(value) { MAP_STYLE_NAME = value.value; MAP_STYLE = mapboxStyles.get(MAP_STYLE_NAME); initMap();})
-
+    .addBoolean("Show Pace Chart", SHOW_PACE_CHART, function (value) {
+      SHOW_PACE_CHART = value;
+      initChart();
+    })
+    .addDropDown(
+      "Map Style",
+      new Array(...mapboxStyles.keys()),
+      function (value) {
+        MAP_STYLE_NAME = value.value;
+        MAP_STYLE = mapboxStyles.get(MAP_STYLE_NAME);
+        initMap();
+      }
+    )
     .addColor("Map Line Colour", MAP_LINE_COLOUR, function (value) {
       MAP_LINE_COLOUR = value;
       initMap();
