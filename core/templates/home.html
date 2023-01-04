@@ -1,19 +1,30 @@
 {% extends 'base.html' %}
 {% block content%}
-<form method="post" enctype="multipart/form-data">
+<section class="about">
     <p>
-        <label for="file">Choose an activity file</label>
-        <input type="file" id="file" name="file" />
+        Nice Run! helps you generate an image for a run (or ride, walk, ski, or really any GPS-based activity) that you can share (see an example).
     </p>
     <p>
-        <label for="name">Activity name</label>
-        <input type="text" id="name" name="name" />
+        Start by uploading a FIT or GPX from your device. You can export these from Strava or Garmin Connect easily.
     </p>
+</section>
 
-    <p>
-        <input type="submit" value="Upload Run" />
-    </p>
+<section>
+    <form method="post" enctype="multipart/form-data">
+        <p>
+            <label for="file">Choose an activity file</label>
+            <input type="file" id="file" name="file" class="dropzone" />
+        </p>
+        <p>
+            <label for="name">Activity name</label>
+            <input type="text" id="name" name="name" />
+        </p>
 
-    {% csrf_token %}
-</form>
+        <p>
+            <input type="submit" value="Upload Run" />
+        </p>
+
+        {% csrf_token %}
+    </form>
+</section>
 {% endblock %}
