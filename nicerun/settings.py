@@ -28,7 +28,8 @@ DEBUG = True
 if not DEBUG and SECRET_KEY == "totally-insecure":
     raise Exception("Do not run with the default secret key in production")
 
-ALLOWED_HOSTS = ["nicerun.xyz", "www.nicerun.xyz", "localhost"]
+ALLOWED_HOSTS = ["nicerun.xyz", "www.nicerun.xyz", "localhost", ".ngrok.io"]
+CSRF_TRUSTED_ORIGINS = ['https://8267-210-1-193-233.ngrok.io']
 
 
 # Application definition

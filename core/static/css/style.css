@@ -1,6 +1,5 @@
 body {
   background-color: #f8f9fa;
-  font-family: "IBM Plex Sans", monospace;
 }
 
 section {
@@ -71,4 +70,13 @@ section.run-wrapper {
 
 #chart-title {
   font-weight: bold;
+}
+
+
+/* Fix issue with Chrome colour picker / quicksettings */
+/* https://github.com/bit101/quicksettings/issues/57#issuecomment-732507267 */
+.qs_color {
+  position: absolute!important;
+  left: 5px!important;
+  visibility: hidden!important;
 }

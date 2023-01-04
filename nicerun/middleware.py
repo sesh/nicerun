@@ -86,6 +86,15 @@ def corp_coop_coep(get_response):
     return middleware
 
 
+def cors(get_response):
+    def middleware(request):
+        response = get_response(request)
+        response.headers["Access-Control-Allow-Origin"] = "*"
+        return response
+
+    return middleware
+
+
 def dns_prefetch(get_response):
     def middleware(request):
         response = get_response(request)

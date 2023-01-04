@@ -24,7 +24,7 @@ def home(request):
                 "run.html",
                 {
                     "activity_json": activity.to_json(),
-                },
+                }
             )
 
     return render(request, "home.html")

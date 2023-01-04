@@ -11,6 +11,7 @@ fitparse = "*"
 python-dateutil = "*"
 "srtm.py" = "*"
 "activity.py" = "==0.1b2"
+thttp = "*"
 
 [dev-packages]
 black = "*"

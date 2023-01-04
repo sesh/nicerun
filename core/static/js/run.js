@@ -49,6 +49,14 @@ function toHHMMSS(x) {
   return hours + ":" + minutes + ":" + seconds;
 }
 
+function utf8_to_b64( str ) {
+    return window.btoa(unescape(encodeURIComponent( str )));
+}
+
+function make_url_safe(str) {
+    return str.replace(/\+/g, "-").replace(/\//g, "_");
+}
+
 /*
     Mapbox
 */
@@ -306,17 +314,6 @@ function takeScreenshot(map) {
 /*
     Init!
 */
-
-
-function DownloadCanvasAsImage(){
-  let downloadLink = document.createElement('a');
-  downloadLink.setAttribute('download', 'CanvasAsImage.png');
-  let canvas = document.getElementById('myCanvas');
-  let dataURL = canvas.toDataURL('image/png');
-  let url = dataURL.replace(/^data:image\/png/,'data:application/octet-stream');
-  downloadLink.setAttribute('href',url);
-  downloadLink.click();
-}
 
 function initAll() {
   initStats();
