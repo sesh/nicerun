@@ -198,14 +198,14 @@ function initStats() {
 Pace Chart!
 */
 
-let chart;
+let paceChart;
 
 function initChart() {
-  if (chart) {
-    chart.destroy();
+  if (paceChart) {
+    paceChart.destroy();
   }
 
-  let paceChartEl = document.getElementById("pace-chart");
+  let paceChartEl = document.getElementById("pace-chart-wrapper");
   let title = document.getElementById("chart-title");
   let subTitle = document.getElementById("chart-subtitle");
 
@@ -239,7 +239,7 @@ function initChart() {
 
   const ctx = document.getElementById("splits");
   ctx.style.height = "100px";
-  chart = new Chart(ctx, {
+  paceChart = new Chart(ctx, {
     type: "bar",
     data: {
       labels: chartData.map((el, i) => i * PACE_CHART_SPLIT_DURATION),
@@ -273,7 +273,6 @@ function initChart() {
     },
   });
 
-
   title.innerText = `Distance per ${PACE_CHART_SPLIT_DURATION} seconds`;
 
   let best_split = Math.max(...chartData);
@@ -282,6 +281,80 @@ function initChart() {
   subTitle.innerText = `Best: ${best_pace} min/km`;
 }
 
+
+/*
+Elevation Chart!
+*/
+
+let elevationChart;
+
+function initElevationChart() {
+  if (elevationChart) {
+    elevationChart.destroy();
+  }
+
+  let elevationChartEl = document.getElementById("elevation-chart-wrapper");
+  let title = document.getElementById("elevation-chart-title");
+  let subTitle = document.getElementById("elevation-chart-subtitle");
+
+  if (!SHOW_ELEVATION_CHART) {
+    elevationChartEl.style.display = 'none';
+    title.innerHTML = "";
+    subTitle.innerHTML = "";
+    return;
+  } else {
+    elevationChartEl.style.display = 'block';
+  }
+
+  let chartData = run.elevation_values;
+  let chartMin = Math.floor(Math.min(...chartData) * 0.8);
+
+  const ctx = document.getElementById("elevation-chart");
+  ctx.style.height = "100px";
+
+  elevationChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: chartData,
+      datasets: [{
+        data: chartData,
+        fill: 'origin',
+        borderColor: ELEVATION_CHART_COLOUR,
+        backgroundColor: ELEVATION_CHART_COLOUR,
+        borderWidth: 1,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        y: {
+          beginAtZero: false,
+          display: false,
+          min: chartMin,
+        },
+        x: {
+          display: false,
+        },
+      },
+      plugins: {
+        legend: {
+          display: false,
+        },
+      },
+      elements: {
+        point:{
+          radius: 0
+        },
+        line: {
+          borderJoinStyle: 'round'
+        }
+      }
+    }
+  });
+
+  title.innerText = `Elevation Change`;
+}
 /*
 Download PNG
 
@@ -319,6 +392,7 @@ function initAll() {
   initStats();
   initMap();
   initChart();
+  initElevationChart();
 
   downloadEl.onclick = () => {
     takeScreenshot(map).then(function (data) {
@@ -333,48 +407,3 @@ function initAll() {
 }
 
 initAll();
-
-
-
-/*
-Elevation Chart Layout, WIP:
-const ctx = document.getElementById('myChart');
-
-  new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: data,
-      datasets: [{
-        data: data,
-        fill: 'origin',
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      scales: {
-        y: {
-          beginAtZero: false,
-          display: false,
-          min: Math.min(...data) * 0.9,
-        },
-        x: {
-          display: false,
-        },
-      },
-      plugins: {
-        legend: {
-          display: false,
-        },
-      },
-      elements: {
-        point:{
-          radius: 0
-        },
-        line: {
-          borderJoinStyle: 'round'
-        }
-      }
-    }
-  });
-*/
