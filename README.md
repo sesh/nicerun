@@ -6,9 +6,9 @@ It's a work in progress, but it's close to being _usable_ by others.
 
 ## Example
 
-![](https://media.brntn.me/postie/baf302b3.png)
+![](https://media.brntn.me/postie/6775f5ae.png)
 
-(overall look and feel improvements coming soon)
+(overall look and feel evolving...)
 
 ## Usage
 
