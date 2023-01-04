@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section>
+    <p>We don't want your data.</p>
+
+    <p>
+        <strong>Data you upload is processed but is not stored</strong>
+    </p>
+
+    <p>
+        When you upload a file to Nice Run! your file is processed on our server.
+        The details in the file, including your location data, are read to produce the details needed to generate your image.
+        We do not store the contents of your files, and we do not log the details of your files.
+    </p>
+
+    <p>
+        Due to the way that file uploads are processed by our web framework (Django) large files may be temporarily stored.
+        These files are regularly cleared by the system.
+    </p>
+
+    <p>
+        <strong>Cookies are used for sessions only</strong>
+    </p>
+
+    <p>
+        Cookies are used to store a session id.
+        We use sessions for rate limiting and for storing temporary data between HTTP requests.
+        No cookies that are not required for the functionality of Run Randomly are used.
+    </p>
+
+    <p>
+        <strong>Sentry is used for error reporting and performance monitoring</strong>
+    </p>
+
+    <p>
+        A third-party service called Sentry is used for error reporting and performance monitoring.
+        Your IP address and browser information will be shared with Sentry in order for this service to correctly operate.
+        You can view <a href="https://sentry.io/privacy/">Sentry's privacy policy</a> for more information.
+    </p>
+
+    <p>
+        <strong>Mapbox is used to render maps</strong>
+    </p>
+    <p>
+        A third-party service called Mapbox is used to render maps.
+        Your IP address and other browser information is transfered to Mapbox when your browser makes requests for the map data.
+        You can view <a href="https://www.mapbox.com/legal/privacy">Mapbox's privacy policy</a> for more information about what is stored.
+    </p>
+
+    <p>
+        If you want more information please reach out to brenton@fastmail.com
+    </p>
+</section>
+{% endblock %}
