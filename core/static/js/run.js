@@ -333,3 +333,48 @@ function initAll() {
 }
 
 initAll();
+
+
+
+/*
+Elevation Chart Layout, WIP:
+const ctx = document.getElementById('myChart');
+
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: data,
+      datasets: [{
+        data: data,
+        fill: 'origin',
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        y: {
+          beginAtZero: false,
+          display: false,
+          min: Math.min(...data) * 0.9,
+        },
+        x: {
+          display: false,
+        },
+      },
+      plugins: {
+        legend: {
+          display: false,
+        },
+      },
+      elements: {
+        point:{
+          radius: 0
+        },
+        line: {
+          borderJoinStyle: 'round'
+        }
+      }
+    }
+  });
+*/
