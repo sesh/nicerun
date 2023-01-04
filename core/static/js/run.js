@@ -279,6 +279,8 @@ Download PNG
 
 "Get the canvas value immediately after rendering the map"
 
+map.setBearing() triggers the render below...
+
 Two references here with code snippets that are combined to make this work:
 https://github.com/mapbox/mapbox-gl-js/issues/2766#issuecomment-370758650
 https://github.com/niklasvh/html2canvas/issues/2707#issuecomment-1003690418
@@ -291,7 +293,7 @@ function takeScreenshot(map) {
   return new Promise(function (resolve, reject) {
     map.once("render", function () {
       html2canvas(runEl, { scale: 2 }).then((canvas) => {
-        url = canvas.toDataURL();
+        url = canvas.toDataURL('image/png');
         resolve(url);
       });
     });
@@ -305,6 +307,17 @@ function takeScreenshot(map) {
     Init!
 */
 
+
+function DownloadCanvasAsImage(){
+  let downloadLink = document.createElement('a');
+  downloadLink.setAttribute('download', 'CanvasAsImage.png');
+  let canvas = document.getElementById('myCanvas');
+  let dataURL = canvas.toDataURL('image/png');
+  let url = dataURL.replace(/^data:image\/png/,'data:application/octet-stream');
+  downloadLink.setAttribute('href',url);
+  downloadLink.click();
+}
+
 function initAll() {
   initStats();
   initMap();
@@ -312,7 +325,12 @@ function initAll() {
 
   downloadEl.onclick = () => {
     takeScreenshot(map).then(function (data) {
-      window.open(data, "_blank").focus();
+      let downloadLink = document.createElement('a');
+      downloadLink.setAttribute('download', run.name + '.png');
+
+      let url = data.replace(/^data:image\/png/,'data:application/octet-stream');
+      downloadLink.setAttribute('href',url);
+      downloadLink.click();
     });
   };
 }
