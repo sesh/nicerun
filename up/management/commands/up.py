@@ -1,7 +1,6 @@
 from __future__ import print_function
 
 import os
-import random
 import shutil
 import string
 import subprocess
@@ -52,7 +51,8 @@ class Command(BaseCommand):
             open("requirements.txt", "r")
         except FileNotFoundError:
             sys.exit(
-                "requirements.txt not found in the root directory, use `pip freeze` or `pipenv lock --requirements` to generate."
+                "requirements.txt not found in the root directory, use `pip freeze` " \
+                "or `pipenv lock --requirements` to generate."
             )
 
         app_name = settings.WSGI_APPLICATION.split(".")[0]

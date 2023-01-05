@@ -5,7 +5,7 @@
   --run-border: #adb5bd;
   --run-shadow: #ced4da;
   --run-text: #222;
-  --stat-border: black;
+  --stat-border: #222;
 }
 
 body {

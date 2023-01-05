@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 import os
 from pathlib import Path
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -79,8 +80,6 @@ WSGI_APPLICATION = "nicerun.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/
 
-import dj_database_url
-
 DATABASES = {"default": dj_database_url.config(default=f'sqlite:///{BASE_DIR / "db.sqlite3"}')}
 
 
@@ -128,7 +127,7 @@ if not DEBUG:
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Logging Configuration
-if DEBUG == False:
+if DEBUG is False:
     LOGGING = {
         "version": 1,
         "disable_existing_loggers": False,

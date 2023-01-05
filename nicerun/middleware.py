@@ -41,7 +41,8 @@ def csp(get_response):
         response = get_response(request)
         response.headers[
             "Content-Security-Policy"
-        ] = "default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; child-src 'self'; form-action 'self'"
+        ] = "default-src 'none'; script-src 'self'; style-src 'self';"\
+            "img-src 'self'; child-src 'self'; form-action 'self'"
         return response
 
     return middleware
