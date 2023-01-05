@@ -1,5 +1,15 @@
+
+:root {
+  --page-bg: #f8f9fa;
+  --run-bg: #ffffff;
+  --run-border: #adb5bd;
+  --run-shadow: #ced4da;
+  --run-text: #222;
+  --stat-border: black;
+}
+
 body {
-  background-color: #f8f9fa;
+  background-color: var(--page-bg);
 }
 
 section {
@@ -7,14 +17,15 @@ section {
 }
 
 section.run-wrapper {
+  background-color: var(--page-bg);
   padding: 1em;
-  background-color: #f8f9fa;
 }
 .run {
-  background-color: white;
-  border: 2px solid #adb5bd;
+  color: var(--run-text);
+  background-color: var(--run-bg);
+  border: 2px solid var(--run-border);
+  box-shadow: 4px 4px 0 var(--run-shadow);
   border-radius: 10px;
-  box-shadow: 4px 4px 0 #ced4da;
   padding: 0.6em;
 }
 
@@ -36,7 +47,7 @@ section.run-wrapper {
 
 .header div.stacked {
   padding: 0.3em 1em;
-  border-right: 1px solid black;
+  border-right: 1px solid var(--stat-border);
 }
 
 .header div.stacked:last-child {
@@ -83,12 +94,4 @@ section.run-wrapper {
 
 .controls p.space-bottom {
   margin-bottom: 1em;
-}
-
-/* Fix issue with Chrome colour picker / quicksettings */
-/* https://github.com/bit101/quicksettings/issues/57#issuecomment-732507267 */
-.qs_color {
-  position: absolute!important;
-  left: 5px!important;
-  visibility: hidden!important;
 }
