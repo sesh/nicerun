@@ -112,6 +112,18 @@
   </details>
 </section>
 
+<section>
+  <svg class="theme-picker" width="180px" height="40px" viewBox="0 0 180 40" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <rect fill="#282a36" x="0" y="0" width="180" height="40"></rect>
+    <circle fill="#FF5555" cx="15" cy="20" r="8"></circle>
+    <circle fill="#50FA7B" cx="40" cy="20" r="8"></circle>
+    <circle fill="#F1FA8C" cx="65" cy="20" r="8"></circle>
+    <circle fill="#BD93F9" cx="90" cy="20" r="8"></circle>
+    <circle fill="#FF79C6" cx="115" cy="20" r="8"></circle>
+    <circle fill="#8BE9FD" cx="140" cy="20" r="8"></circle>
+    <circle fill="#F8F8F2" cx="165" cy="20" r="8"></circle>
+  </svg>
+</section>
 <script>
   let run = {{ activity_json|safe }};
 </script>
@@ -170,64 +182,103 @@
     }
   }
 
-  setupControlAndTrackChanges("toggle-distance", SHOW_DISTANCE, (value) => {
-    SHOW_DISTANCE = value;
-    initStats();
-  });
-  setupControlAndTrackChanges("toggle-pace", SHOW_PACE, (value) => {
-    SHOW_PACE = value;
-    initStats();
-  });
-  setupControlAndTrackChanges("toggle-duration", SHOW_DURATION, (value) => {
-    SHOW_DURATION = value;
-    initStats();
-  });
-  setupControlAndTrackChanges("toggle-elevation", SHOW_ELEVATION, (value) => {
-    SHOW_ELEVATION = value;
-    initStats();
-  });
-  setupControlAndTrackChanges("toggle-pace-chart", SHOW_PACE_CHART, (value) => {
-    console.log("here!" + value);
-    SHOW_PACE_CHART = value;
-    initChart();
-  });
+  function initControls() {
 
-  setupControlAndTrackChanges("toggle-elevation-chart", SHOW_ELEVATION_CHART, (value) => {
-    SHOW_ELEVATION_CHART = value;
-    initElevationChart();
-  });
+    setupControlAndTrackChanges("toggle-distance", SHOW_DISTANCE, (value) => {
+      SHOW_DISTANCE = value;
+      initStats();
+    });
+    setupControlAndTrackChanges("toggle-pace", SHOW_PACE, (value) => {
+      SHOW_PACE = value;
+      initStats();
+    });
+    setupControlAndTrackChanges("toggle-duration", SHOW_DURATION, (value) => {
+      SHOW_DURATION = value;
+      initStats();
+    });
+    setupControlAndTrackChanges("toggle-elevation", SHOW_ELEVATION, (value) => {
+      SHOW_ELEVATION = value;
+      initStats();
+    });
+    setupControlAndTrackChanges("toggle-pace-chart", SHOW_PACE_CHART, (value) => {
+      console.log("here!" + value);
+      SHOW_PACE_CHART = value;
+      initChart();
+    });
 
-  setupControlAndTrackChanges("select-map-type", MAP_STYLE_NAME, (value) => {
-    MAP_STYLE_NAME = value;
-    MAP_STYLE = mapboxStyles.get(MAP_STYLE_NAME);
-    initMap();
-  });
+    setupControlAndTrackChanges("toggle-elevation-chart", SHOW_ELEVATION_CHART, (value) => {
+      SHOW_ELEVATION_CHART = value;
+      initElevationChart();
+    });
 
-  setupControlAndTrackChanges("choose-line-color", MAP_LINE_COLOUR, (value) => {
-    MAP_LINE_COLOUR = value;
-    initMap();
-  });
+    setupControlAndTrackChanges("select-map-type", MAP_STYLE_NAME, (value) => {
+      MAP_STYLE_NAME = value;
+      MAP_STYLE = mapboxStyles.get(MAP_STYLE_NAME);
+      initMap();
+    });
 
-  setupControlAndTrackChanges("choose-pace-chart-color", PACE_CHART_COLOUR, (value) => {
-    PACE_CHART_COLOUR = value;
-    initChart();
-  });
+    setupControlAndTrackChanges("choose-line-color", MAP_LINE_COLOUR, (value) => {
+      MAP_LINE_COLOUR = value;
+      initMap();
+    });
 
-  setupControlAndTrackChanges("choose-elevation-chart-color", ELEVATION_CHART_COLOUR, (value) => {
-    ELEVATION_CHART_COLOUR = value;
-    initElevationChart();
-  });
+    setupControlAndTrackChanges("choose-pace-chart-color", PACE_CHART_COLOUR, (value) => {
+      PACE_CHART_COLOUR = value;
+      initChart();
+    });
 
-  setupControlAndTrackChanges("enter-pace-chart-split-duration", PACE_CHART_SPLIT_DURATION, (value) => {
-    PACE_CHART_SPLIT_DURATION = parseInt(value, 10);
-    initChart();
-  });
+    setupControlAndTrackChanges("choose-elevation-chart-color", ELEVATION_CHART_COLOUR, (value) => {
+      ELEVATION_CHART_COLOUR = value;
+      initElevationChart();
+    });
 
-  setupControlAndTrackChanges("enter-map-crop", MAP_CROP, (value) => {
-    MAP_CROP = parseInt(value, 10);
-    initMap();
-  })
+    setupControlAndTrackChanges("enter-pace-chart-split-duration", PACE_CHART_SPLIT_DURATION, (value) => {
+      PACE_CHART_SPLIT_DURATION = parseInt(value, 10);
+      initChart();
+    });
+
+    setupControlAndTrackChanges("enter-map-crop", MAP_CROP, (value) => {
+      MAP_CROP = parseInt(value, 10);
+      initMap();
+    });
+  }
+
+  initControls();
 </script>
 
+<script>
+  function findParentNode(el, tagName) {
+    while (true) {
+      if (el.tagName == undefined) {
+        return;
+      } else if (el.tagName.toLowerCase() == tagName.toLowerCase()) {
+        return el;
+      }
+      el = el.parentNode;
+    }
+  }
+  document.querySelector('svg').onclick = (e) => {
+    let svgNode = findParentNode(e.target, 'svg');
+    let background = svgNode.querySelector("rect").attributes.fill.value;
+    let foreground = svgNode.querySelectorAll("circle")[6].attributes.fill.value;
+
+    var r = document.querySelector(':root');
+    r.style.setProperty('--blue', 'lightblue');
+
+    r.style.setProperty('--page-bg', svgNode.querySelectorAll("circle")[0].attributes.fill.value);
+    r.style.setProperty('--run-bg', svgNode.querySelectorAll("circle")[1].attributes.fill.value);
+    r.style.setProperty('--run-border', svgNode.querySelectorAll("circle")[2].attributes.fill.value);
+    r.style.setProperty('--run-shadow', svgNode.querySelectorAll("circle")[3].attributes.fill.value);
+    r.style.setProperty('--run-text', svgNode.querySelectorAll("circle")[4].attributes.fill.value);
+    r.style.setProperty('--stat-border', svgNode.querySelectorAll("circle")[4].attributes.fill.value);
+
+    MAP_LINE_COLOUR = svgNode.querySelectorAll("circle")[5].attributes.fill.value;
+    PACE_CHART_COLOUR = svgNode.querySelectorAll("circle")[6].attributes.fill.value;
+
+    initChart();
+    initMap();
+    initControls();
+  }
+</script>
 <script src="{% static 'js/run.js' %}"></script>
 {% endblock %}
