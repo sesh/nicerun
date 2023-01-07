@@ -373,7 +373,12 @@ let runEl = document.querySelector(".run-wrapper");
 function takeScreenshot(map) {
   return new Promise(function (resolve, reject) {
     map.once("render", function () {
-      html2canvas(runEl, { scale: 2 }).then((canvas) => {
+      html2canvas(runEl, {
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        proxy: '/proxy/'
+      }).then((canvas) => {
         url = canvas.toDataURL('image/png');
         resolve(url);
       });
