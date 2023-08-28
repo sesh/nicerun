@@ -57,6 +57,17 @@ function make_url_safe(str) {
     return str.replace(/\+/g, "-").replace(/\//g, "_");
 }
 
+function findParentNode(el, tagName) {
+  while (true) {
+    if (el.tagName == undefined) {
+      return;
+    } else if (el.tagName.toLowerCase() == tagName.toLowerCase()) {
+      return el;
+    }
+    el = el.parentNode;
+  }
+}
+
 /*
     Mapbox
 */

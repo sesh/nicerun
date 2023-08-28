@@ -109,20 +109,34 @@
         </p>
       </div>
     </div>
+    <div>
+      <p>Colour Scheme</p>
+      <svg class="theme-picker" width="180px" height="40px" viewBox="0 0 180 40" version="1.1" xmlns="http://www.w3.org/2000/svg">
+        <rect fill="#282a36" x="0" y="0" width="180" height="40"></rect>
+        <circle fill="#f8f9fa" cx="15" cy="20" r="8"></circle>  <!-- page background -->
+        <circle fill="#ffffff" cx="40" cy="20" r="8"></circle>  <!-- run background -->
+        <circle fill="#aeb5bc" cx="65" cy="20" r="8"></circle>  <!-- run border -->
+        <circle fill="#cfd4da" cx="90" cy="20" r="8"></circle>  <!-- run shadow -->
+        <circle fill="#212121" cx="115" cy="20" r="8"></circle>  <!-- run text -->
+        <circle fill="#fa5252" cx="140" cy="20" r="8"></circle>  <!-- map line colour -->
+        <circle fill="#6ab2fa" cx="165" cy="20" r="8"></circle>  <!-- pace chart colour -->
+      </svg>
+
+      <svg class="theme-picker" width="180px" height="40px" viewBox="0 0 180 40" version="1.1" xmlns="http://www.w3.org/2000/svg">
+        <rect fill="#282a36" x="0" y="0" width="180" height="40"></rect>
+        <circle fill="#f8f9fa" cx="15" cy="20" r="8"></circle>  <!-- page background -->
+        <circle fill="#ffffff" cx="40" cy="20" r="8"></circle>  <!-- run background -->
+        <circle fill="#aeb5bc" cx="65" cy="20" r="8"></circle>  <!-- run border -->
+        <circle fill="#cfd4da" cx="90" cy="20" r="8"></circle>  <!-- run shadow -->
+        <circle fill="#3b5bdb" cx="115" cy="20" r="8"></circle>  <!-- run text -->
+        <circle fill="#3b5bdb" cx="140" cy="20" r="8"></circle>  <!-- map line colour -->
+        <circle fill="#3b5bdb" cx="165" cy="20" r="8"></circle>  <!-- pace chart colour -->
+      </svg>
   </details>
 </section>
 
 <section>
-  <svg class="theme-picker" width="180px" height="40px" viewBox="0 0 180 40" version="1.1" xmlns="http://www.w3.org/2000/svg">
-    <rect fill="#282a36" x="0" y="0" width="180" height="40"></rect>
-    <circle fill="#FF5555" cx="15" cy="20" r="8"></circle>
-    <circle fill="#50FA7B" cx="40" cy="20" r="8"></circle>
-    <circle fill="#F1FA8C" cx="65" cy="20" r="8"></circle>
-    <circle fill="#BD93F9" cx="90" cy="20" r="8"></circle>
-    <circle fill="#FF79C6" cx="115" cy="20" r="8"></circle>
-    <circle fill="#8BE9FD" cx="140" cy="20" r="8"></circle>
-    <circle fill="#F8F8F2" cx="165" cy="20" r="8"></circle>
-  </svg>
+
 </section>
 <script>
   let run = {{ activity_json|safe }};
@@ -247,38 +261,34 @@
 </script>
 
 <script>
-  function findParentNode(el, tagName) {
-    while (true) {
-      if (el.tagName == undefined) {
-        return;
-      } else if (el.tagName.toLowerCase() == tagName.toLowerCase()) {
-        return el;
-      }
-      el = el.parentNode;
+  let themeSwatches = document.querySelectorAll('svg');
+
+  themeSwatches.forEach(function (el) {
+    el.onclick = (e) => {
+      let svgNode = findParentNode(e.target, 'svg');
+      let background = svgNode.querySelector("rect").attributes.fill.value;
+      let foreground = svgNode.querySelectorAll("circle")[6].attributes.fill.value;
+
+      var r = document.querySelector(':root');
+      r.style.setProperty('--blue', 'lightblue');
+
+      r.style.setProperty('--page-bg', svgNode.querySelectorAll("circle")[0].attributes.fill.value);
+      r.style.setProperty('--run-bg', svgNode.querySelectorAll("circle")[1].attributes.fill.value);
+      r.style.setProperty('--run-border', svgNode.querySelectorAll("circle")[2].attributes.fill.value);
+      r.style.setProperty('--run-shadow', svgNode.querySelectorAll("circle")[3].attributes.fill.value);
+      r.style.setProperty('--run-text', svgNode.querySelectorAll("circle")[4].attributes.fill.value);
+      r.style.setProperty('--stat-border', svgNode.querySelectorAll("circle")[4].attributes.fill.value);
+
+      MAP_LINE_COLOUR = svgNode.querySelectorAll("circle")[5].attributes.fill.value;
+      PACE_CHART_COLOUR = svgNode.querySelectorAll("circle")[6].attributes.fill.value;
+
+      initChart();
+      initMap();
+      initControls();
+      initElevationChart();
     }
-  }
-  document.querySelector('svg').onclick = (e) => {
-    let svgNode = findParentNode(e.target, 'svg');
-    let background = svgNode.querySelector("rect").attributes.fill.value;
-    let foreground = svgNode.querySelectorAll("circle")[6].attributes.fill.value;
+  })
 
-    var r = document.querySelector(':root');
-    r.style.setProperty('--blue', 'lightblue');
-
-    r.style.setProperty('--page-bg', svgNode.querySelectorAll("circle")[0].attributes.fill.value);
-    r.style.setProperty('--run-bg', svgNode.querySelectorAll("circle")[1].attributes.fill.value);
-    r.style.setProperty('--run-border', svgNode.querySelectorAll("circle")[2].attributes.fill.value);
-    r.style.setProperty('--run-shadow', svgNode.querySelectorAll("circle")[3].attributes.fill.value);
-    r.style.setProperty('--run-text', svgNode.querySelectorAll("circle")[4].attributes.fill.value);
-    r.style.setProperty('--stat-border', svgNode.querySelectorAll("circle")[4].attributes.fill.value);
-
-    MAP_LINE_COLOUR = svgNode.querySelectorAll("circle")[5].attributes.fill.value;
-    PACE_CHART_COLOUR = svgNode.querySelectorAll("circle")[6].attributes.fill.value;
-
-    initChart();
-    initMap();
-    initControls();
-  }
 </script>
 <script src="{% static 'js/run.js' %}"></script>
 {% endblock %}
